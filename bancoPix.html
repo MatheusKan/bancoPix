@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco Pix</title>
+</head>
+
+<body>
+    <h1>Banco da Etec - Transferencia Pix.</h1>
+    <h3>Primeira Conta</h3>
+    <p>Nome da conta: <span id="nome1"></span></p>
+    <p>Cpf da conta: <span id="cpf1"></span></p>
+    <p>Valor antes da transação da conta: <span id="valorpre1"></span></p>
+    <p>Valor pós transação da conta: <span id="valorpos1"></span></p>
+    <br>
+    <h3>Segund conta</h3>
+    <p>Nome da segunda conta: <span id="nome2"></span></p>
+    <p>Cpf da segunda conta: <span id="cpf2"></span></p>
+    <p>Valor antes da transação da segunda conta: <span id="valorpre2"></span></p>
+    <p>Valor pós transação da segunda conta: <span id="valorpos2"></span></p>
+    <script>
+        let cpf = [];
+        let nome = [];
+        let saldo = [];
+        let n = 0;
+
+        let inicio = Number(prompt("Escolha a operação: \n 1 - Cadastrar conta \n 2 - Fazer o Pix \n 3 - Sair"));
+        while (inicio == 1 || inicio == 2) {
+
+
+            switch (inicio) {
+                case 1:
+                    let cpf1 = Number(prompt("Digite o cpf"));
+                    let nome1 = prompt("Digite o nome");
+                    let saldo1 = Number(prompt("Digite o saldo"));
+
+                    cadastrarConta(cpf1, nome1, saldo1);
+
+                    break;
+                case 2:
+                    if (cpf.length == 0) {
+                        alert("Nenhuma conta cadastrada")
+
+                    } else if (cpf.length > 1){
+                        let cpfA = Number(prompt("Digite o cpf de origem"));
+                        let valor = Number(prompt("Digite o valor"));
+                        let cpfB = Number(prompt("Digite o cpf de destino"));
+                        fazerPix(cpfA, valor, cpfB);
+                    }else{
+                        alert("Só uma conta cadastrada")
+                    }
+                    break;
+                case 3:
+                    alert("3");
+                    break;
+                default:
+                    alert("Opção Inválida")
+                    break;
+            }
+            inicio = Number(prompt("Escolha a operação: \n 1 - Cadastrar conta \n 2 - Fazer o Pix \n 3 - Sair"));
+        }
+        function cadastrarConta(cpf1, nome1, saldo1) {
+            cpf[n] = cpf1;
+            nome[n] = nome1;
+            saldo[n] = saldo1;
+            alert("Cpf:" + cpf[n] + "Cliente: " + nome[n] + "Saldo: " + saldo[n]);
+            n++;
+        }
+
+        function fazerPix(cpfA, valor, cpfB) {
+            //localizar o cpfA    
+            //achar o cpfA
+            for (let index = 0; index < cpf.length; index++) {
+                if (cpfA == cpf[index]) {
+                    document.getElementById("nome1").innerHTML = nome[index];
+                    document.getElementById("cpf1").innerHTML = cpf[index];
+                    let saldopag = saldo[index]
+                    document.getElementById("valorpre1").innerHTML = saldopag.toFixed(2);
+                    if (saldo[index] >= valor) {
+                        saldo[index] = saldo[index] - valor;
+                        alert("Pix realizado");
+                        let saldopagfinal = saldo[index]
+                        document.getElementById("valorpos1").innerHTML = saldopagfinal.toFixed(2);
+                    } else {
+                        alert("Você não tem dinheiro suficiente para a transação")
+                    }
+                }
+            }
+
+            //achar o cpfB
+            for (let index1 = 1; index1 < cpf.length; index++) {
+                document.getElementById("nome2").innerHTML = nome[index1];
+                document.getElementById("cpf2").innerHTML = cpf[index1];
+                let saldodest = saldo[index1]
+                document.getElementById("valorpre2").innerHTML = saldodest.toFixed(2);
+                if (cpfB == cpf[index1]) {
+                    saldo[index1] = saldo[index1] + valor;
+                    let saldodestfinal = saldo[index1]
+                    document.getElementById("valorpos2").innerHTML = saldodestfinal.toFixed(2);
+                }
+            }
+        }
+
+
+
+    </script>
+</body>
+
+</html>
